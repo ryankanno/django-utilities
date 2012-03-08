@@ -12,7 +12,7 @@ def render(template=None, mimetype=None):
                 return out
             # Define a template dynamically in the decorator call
             template = out.pop('TEMPLATE', template)
-            return render_to_response(template, out, \
+            return render_to_response(template, out,
                    context_instance=RequestContext(request), mimetype=mimetype)
         return wrapper
     return renderer
