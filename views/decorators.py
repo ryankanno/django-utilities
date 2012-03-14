@@ -23,7 +23,7 @@ def render(template=None, mimetype=None):
 
             # If it's still null, try to do the right thing
             if not tmpl_to_render:
-                tmpl_to_render = "%s/%s.html" % (func.__module__.split('.')[k], func.__name__)
+                tmpl_to_render = "%s/%s.html" % (func.__module__.split('.')[0], func.__name__)
 
             return render_to_response(tmpl_to_render, out,
                    context_instance=RequestContext(request), mimetype=mimetype)
