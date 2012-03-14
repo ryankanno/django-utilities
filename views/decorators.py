@@ -6,6 +6,8 @@ from django.template import RequestContext
 
 from functools import wraps
 
+import json
+
 def render(template=None, mimetype=None):
     def renderer(func):
         @wraps(func)
@@ -14,6 +16,10 @@ def render(template=None, mimetype=None):
 
             if not isinstance(out, dict):
                 return out
+
+            # If instructed to return json, return json
+            if mimetype is "application/json":
+                return HttpResponse(json.dumps(out), mimetype=mimetype)
             
             if template and out.pop('TEMPLATE'):
                 raise Exception, "Naughty, naughty.  You've declared a template within the decorator and function." 
