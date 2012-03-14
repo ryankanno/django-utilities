@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
@@ -16,3 +19,5 @@ def render(template=None, mimetype=None):
                    context_instance=RequestContext(request), mimetype=mimetype)
         return wrapper
     return renderer
+
+# vim: filetype=python

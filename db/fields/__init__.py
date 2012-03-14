@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from django.db.models import DateTimeField
 import datetime
 
@@ -23,3 +26,5 @@ class ModifiedDateTimeField(CreatedDateTimeField):
 
     def get_internal_type(self):
         return "DateTimeField"
+
+# vim: filetype=python

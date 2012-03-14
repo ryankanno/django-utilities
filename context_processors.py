@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from django.views import debug
 from django.conf import settings as conf_settings
 
@@ -14,3 +17,5 @@ def settings(request):
 def module_view(request):
     return {'module_name': getattr(request, 'module_name', '').replace('.','-'),
             'view_name'  : getattr(request, 'view_name', '').replace('.','-')} 
+
+# vim: filetype=python
