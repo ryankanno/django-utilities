@@ -21,7 +21,7 @@ def render(template=None, mimetype=None):
             if mimetype is "application/json":
                 return HttpResponse(json.dumps(out), mimetype=mimetype)
             
-            if template and out.pop('TEMPLATE'):
+            if template and out.pop('TEMPLATE', None):
                 raise Exception, "Naughty, naughty.  You've declared a template within the decorator and function." 
 
             # Define a template dynamically in the decorated call
