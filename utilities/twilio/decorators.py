@@ -11,7 +11,7 @@ from functools import wraps
 from twilio.util import RequestValidator
 
 
-TWILIO_AUTH_TOKEN  = getattr(settings, 'TWILIO_AUTH_TOKEN', None)
+TWILIO_AUTH_TOKEN = getattr(settings, 'TWILIO_AUTH_TOKEN', None)
 
 
 def twilio(fxn):
@@ -21,14 +21,15 @@ def twilio(fxn):
     @csrf_exempt
     @require_POST
     def wrapper(request, *args, **kwargs):
-        url       = request.build_absolute_uri()
+        url = request.build_absolute_uri()
         signature = request.META.get('HTTP_X_TWILIO_SIGNATURE', '')
         validator = RequestValidator(TWILIO_AUTH_TOKEN)
 
         if v.validate(url, request.POST, sig):
             return fxn(request, *args, **kwargs)
         else:
-            return HttpResponseBadRequest('Unable to validate Twilio signature')
+            return HttpResponseBadRequest(
+                'Unable to validate Twilio signature')
     return wraps(fxn)(wrapper)
 
 # vim: filetype=python

@@ -11,11 +11,13 @@ def settings(request):
     exposed = {}
     for x in EXPOSED_SETTINGS:
         exposed[x] = getattr(conf_settings, x)
-    return { 'settings': exposed }
+    return {'settings': exposed}
 
 
 def module_view(request):
-    return {'module_name': getattr(request, 'module_name', '').replace('.','-'),
-            'view_name'  : getattr(request, 'view_name', '').replace('.','-')} 
+    return {
+        'module_name': getattr(request, 'module_name', '').replace('.', '-'),
+        'view_name': getattr(request, 'view_name', '').replace('.', '-')
+    }
 
 # vim: filetype=python

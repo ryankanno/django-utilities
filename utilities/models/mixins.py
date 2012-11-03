@@ -11,12 +11,12 @@ import datetime
 class CreatedModifiedMixin(models.Model):
 
     modified_at = ModifiedDateTimeField()
-    modified_by = models.ForeignKey(User, 
-        related_name='modified_by_%(class)s_set', null=True, blank=True)
+    modified_by = models.ForeignKey(
+        User, related_name='modified_by_%(class)s_set', null=True, blank=True)
 
     created_at = CreatedDateTimeField()
-    created_by = models.ForeignKey(User, 
-        related_name='created_by_%(class)s_set', null=True, blank=True)
+    created_by = models.ForeignKey(
+        User, related_name='created_by_%(class)s_set', null=True, blank=True)
 
     class Meta:
         abstract = True

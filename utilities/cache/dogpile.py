@@ -6,6 +6,7 @@ DOG_PILE_TTL = 30
 
 logger = logging.getLogger(__name__)
 
+
 def cache_get(cache, key):
     logger.debug("Attempting to retrieve key=%s from cache" % key)
 
@@ -20,7 +21,8 @@ def cache_get(cache, key):
 
     # Prevent dog-pile
     if (time.time() > expires and not being_refreshed):
-        logger.debug("Preventing dog-piling by setting stale data for key=%s" % key)
+        logger.debug(
+            "Preventing dog-piling by setting stale data for key=%s" % key)
         cache_set(cache, key, val, DOG_PILE_TTL, being_refreshed=True)
         return None
 
@@ -29,7 +31,8 @@ def cache_get(cache, key):
 
 
 def cache_set(cache, key, val, ttl=0, being_refreshed=False):
-    logger.debug("Attempting to set key=%s in cache for ttl=%s seconds" % (key, ttl))
+    logger.debug(
+        "Attempting to set key=%s in cache for ttl=%s seconds" % (key, ttl))
 
     real_ttl = time.time() + ttl
     stored_val = (val, real_ttl, being_refreshed)
