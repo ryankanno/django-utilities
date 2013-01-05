@@ -23,7 +23,7 @@ def render(template=None, mimetype=None):
                 return HttpResponse(json.dumps(out), mimetype=mimetype)
 
             if template and out.pop('TEMPLATE', None):
-                raise Exception,
+                raise Exception, \
                     "Naughty, naughty.  You've declared a template within \
                     the decorator and function."
 
