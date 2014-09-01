@@ -1,47 +1,77 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import os
-from distutils.core import setup
+import re
+
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
+
+packages = []
+
+here = os.path.dirname(os.path.realpath(__file__))
+
+# Metadata
+
+meta = {}
+re_meta = re.compile(r'__(\w+?)__\s*=\s*(.*)')
+re_version = re.compile(r'VERSION\s*=.*?\((.*?)\)')
+strip_quotes = lambda s: s.strip("\"'")
 
 
-def find_packages(package_dir):
-    packages, package_data = [], {}
-
-    root_dir = os.path.dirname(__file__)
-    if root_dir:
-        os.chdir(root_dir)
-
-    for dirpath, dirnames, filenames in sorted(os.walk(package_dir)):
-        for i, dirname in enumerate(dirnames):
-            if dirname.startswith('.'): 
-                del dirnames[i]
-
-        if '__init__.py' in filenames:
-            pkg = dirpath.replace(os.path.sep, '.')
-            if os.path.altsep:
-                pkg = pkg.replace(os.path.altsep, '.')
-            packages.append(pkg)
-
-        elif filenames:
-            curr_pack = packages[0] 
-            if curr_pack not in package_data:
-                package_data[curr_pack] = []
-            package_dir = "/".join(curr_pack.split(".")) + "/"
-            for f in filenames:
-                package_data[curr_pack].append(os.path.join(dirpath.replace(package_dir, ""), f))
-
-    return packages, package_data 
+def add_version(match):
+    return {'VERSION': match.group(1).replace(" ", "").replace(",", ".")}
 
 
-packages, package_data = find_packages('utilities')
+def add_meta(match):
+    attr_name, attr_value = m.groups()
+    return {attr_name: strip_quotes(attr_value)}
 
-setup(name='django-utilities',
-      version='0.1.0',
-      description='A set of utilities for use within Django apps',
-      author='Ryan Kanno',
-      author_email='ryankanno@localkinegrinds.com',
-      packages=packages,
-      package_data=package_data,
-      long_description=open('README.txt').read(),
-      install_requires=[
-        "Django >= 1.4.0"
-      ]
+
+patterns = {
+    re_meta: add_meta,
+    re_version: add_version
+}
+
+
+with open(os.path.join(here, 'django_utilities/__init__.py'), 'r') as f:
+    for line in f:
+        for pattern, handler in patterns.items():
+            m = pattern.match(line.strip())
+            if m:
+                meta.update(handler(m))
+
+# Requires
+
+requires = ['Django >= 1.4.0']
+tests_require = ['flake8', 'mock', 'nose', 'nosexcover']
+
+with open(os.path.join(here, 'README.rst')) as f:
+    readme = f.read()
+
+with open(os.path.join(here, 'CHANGES')) as f:
+    changes = f.read()
+
+classifiers = [
+]
+
+setup(
+    name='django-utilities',
+    version=meta['VERSION'],
+    description=' Just a bit of utilities I tend to use in Django projects.',
+    long_description=readme + '\n\n' + changes,
+    author=meta['author'],
+    author_email=meta['email'],
+    url="http://github.com/ryankanno/django-utilities ",
+    packages=packages,
+    package_data={'': ['LICENSE']},
+    package_dir={'django_utilities': 'django_utilities'},
+    install_requires=requires,
+    license=meta['license'],
+    tests_require=tests_require,
+    classifiers=classifiers,
 )
+
+# vim: filetype=python

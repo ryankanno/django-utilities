@@ -1,0 +1,7 @@
+[run]
+
+omit =
+    */python?.?/*
+    */site-packages/nose/*
+    */tests/*
+    django_utilities/__init__.py

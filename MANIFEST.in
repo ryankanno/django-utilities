@@ -1,0 +1,14 @@
+include AUTHORS
+include CHANGES
+include LICENSE
+include MANIFEST.in
+include README.rst
+include requirements-tox.txt
+include requirements.txt
+include setup.py
+prune *.pyc
+prune .git
+prune docs/_build
+recursive-include django_utilities *.py
+recursive-include tests *.py
+recursive-include docs *
