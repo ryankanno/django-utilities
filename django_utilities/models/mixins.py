@@ -4,7 +4,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from utilities.db.fields import CreatedDateTimeField, ModifiedDateTimeField
+from ..db.fields import CreatedDateTimeField
+from ..db.fields import ModifiedDateTimeField
 import datetime
 
 
