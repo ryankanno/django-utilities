@@ -9,7 +9,19 @@ try:
 except ImportError:
     from distutils.core import setup
 
-packages = []
+packages = [
+    'django_utilities',
+    'django_utilities.admin',
+    'django_utilities.amazon',
+    'django_utilities.cache',
+    'django_utilities.db',
+    'django_utilities.db.fields',
+    'django_utilities.management',
+    'django_utilities.management.commands',
+    'django_utilities.models',
+    'django_utilities.twilio',
+    'django_utilities.views'
+]
 
 here = os.path.dirname(os.path.realpath(__file__))
 
