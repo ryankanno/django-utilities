@@ -58,3 +58,9 @@ target/
 *.pyc
 local_settings.py
 build
+
+# rope
+.ropeproject/
+
+# pyenv
+.python-version
