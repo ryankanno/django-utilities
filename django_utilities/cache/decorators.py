@@ -1,9 +1,8 @@
-import os
-from types import FunctionType
 from functools import wraps
 import inspect
 
-from dogpile import cache_get, cache_set
+from .dogpile import cache_get
+from .dogpile import cache_set
 
 
 def default_key_fun_impl(fun, *args, **kwargs):
