@@ -1,8 +1,11 @@
 from functools import wraps
 import inspect
+import sys
 
 from .dogpile import cache_get
 from .dogpile import cache_set
+
+PY3 = sys.version_info[0] == 3
 
 
 def default_key_fun_impl(fun, *args, **kwargs):
@@ -11,7 +14,7 @@ def default_key_fun_impl(fun, *args, **kwargs):
     call_args = inspect.getcallargs(fun, *args, **kwargs)
 
     return "%s-%s-%s" % (name, mod, '-'.join(
-        ["%s-%s" % (k, call_args[k]) for k in sorted(call_args.iterkeys())]))
+        ["%s-%s" % (k, call_args[k]) for k in sorted(iterkeys(call_args))]))
 
 
 def cacheable(cache, key=None, ttl=60, is_enabled=True):
@@ -38,3 +41,10 @@ def cacheable(cache, key=None, ttl=60, is_enabled=True):
                 return fxn(*args, **kwargs)
         return wrapper
     return decorator
+
+
+def iterkeys(d, **kw):
+    if PY3:
+        return iter(d.keys(**kw))
+    else:
+        return d.iterkeys(**kw)
