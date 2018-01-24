@@ -13,12 +13,18 @@ class CreatedModifiedMixin(models.Model):
     modified_at = ModifiedDateTimeField()
     modified_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        related_name='modified_by_%(class)s_set', null=True, blank=True)
+        related_name='modified_by_%(class)s_set',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True)
 
     created_at = CreatedDateTimeField()
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        related_name='created_by_%(class)s_set', null=True, blank=True)
+        related_name='created_by_%(class)s_set',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True)
 
     class Meta:
         abstract = True
